@@ -11,13 +11,13 @@
 }
 @await Html.PartialAsync("_ThoughtModal")
 @await Html.PartialAsync("_CommentModals")
-<div class="row">
+<div id="thoughts-header" class="row">
     <h2 class="pull-left">@ViewData["MainTitle"]</h2>
     <button id="add-new-thought" type="button" class="btn btn-success pull-right">Create Thought</button>
 </div>
 <div class="hs-100">
     </div>
-<div class="row" id="thoughts-container">
+<div class="row background-container" id="thoughts-container">
 
     @foreach (var thought in thoughts)
     {

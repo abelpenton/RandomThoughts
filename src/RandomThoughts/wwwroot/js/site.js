@@ -5,6 +5,8 @@ var currentId;
 $(document).ready(function(){
     apiHost = $('#app-data').attr('data-apiHost');
     console.log(apiHost);
+
+    $('#datetimepicker').datetimepicker();
     $(".thought-view-btn").click(function() {
         let thoughtId = $(this).closest(".thought-inner-container").data("id");
         getThought(thoughtId);        
@@ -22,7 +24,8 @@ $(document).ready(function(){
         console.log(commentId);
         displayCommentEditModal(commentId);
     });
-    $('#add-new-thought').click(function(){
+    $('#add-new-thought').click(function () {
+        ModalBackground('.modal-dialog');
         $('#thought-edit-modal').modal('show');
     });
     $('#add-new-comment').click(function () {
@@ -116,9 +119,16 @@ function displayThoughtDetails(data){
         });
         $('#thought-display-modal').modal('show');
 
+        ModalBackground('.modal-dialog');        
         cleanCommentModal();
-
+        
     });
+}
+
+function ModalBackground(param) {
+    $(param).css('width', '35cm');
+    $('#thoughts-container > ').css('filter', 'blur(2px)');
+    $('#thoughts-header > ').css('filter', 'blur(2px)');
 }
 
 function saveNewThought(){
@@ -283,6 +293,7 @@ function insertNewThought(thought) {
 function cleanCommentModal() {
     $('#comment-edit-modal .form-group').removeClass('has-error');
     $('#comment-edit-modal input, #comment-edit-modal textarea').val('');
+    
     $('#comment-edit-modal').modal('hide');
 }
 function getComment(commentId) {
