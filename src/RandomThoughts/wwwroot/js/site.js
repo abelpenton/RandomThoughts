@@ -6,7 +6,6 @@ $(document).ready(function(){
     apiHost = $('#app-data').attr('data-apiHost');
     console.log(apiHost);
 
-    $('#datetimepicker').datetimepicker();
     $(".thought-view-btn").click(function() {
         let thoughtId = $(this).closest(".thought-inner-container").data("id");
         getThought(thoughtId);        
@@ -70,7 +69,9 @@ $(document).ready(function(){
  * @param  {number} thoughtId The Id of the selected Thought
  */
 function getThought(thoughtId){
-    $.get(apiHost+'thoughts/get/'+thoughtId, function(data){
+    $.get(apiHost + 'thoughts/get/' + thoughtId, function (data) {
+        console.log(data);
+        console.log(data.createAtHumanized);
         displayThoughtDetails(data);
     });
 }
@@ -80,8 +81,7 @@ function getThought(thoughtId){
 function displayThoughtDetails(data){
     $('#thought-display-modal .modal-title').html(data.title);
     $('#thought-display-modal .modal-body > p').html(data.body);
-
-  
+    $('#thought-display-modal #data-thought').html(data.createAtHumanized + "  |  " + data.body.length + " words");
 
     let dataJson = {};
     let form = new FormData();
