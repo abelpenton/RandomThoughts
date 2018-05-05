@@ -17,6 +17,5 @@ namespace RandomThoughts.Models.ThoughtViewModels
         public string Body { get; set; }
 
         public ThinkerMood Mood { get; set; }
-
     }
 }
