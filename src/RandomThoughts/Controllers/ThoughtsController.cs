@@ -67,27 +67,22 @@ namespace RandomThoughts.Controllers
         ///     with the given <paramref name="holeId"/>.
         /// </summary>
         /// <returns></returns>
-        public IActionResult HoleThoughts(int holeId, string holeName)
+        public IActionResult HoleThoughts(ThoughtHole hole)
         {
             ViewData["Title"] = "Public Thoughts";
             ViewData["PersonalThoughts"] = false;
-            ViewData["HoleId"] = holeId;
-            ViewData["MainTitle"] =$"{holeName}'s Thoughts";
-            
+            ViewData["HoleId"] = hole.Id;
+            ViewData["MainTitle"] = $"{hole.Name}'s Thoughts";
+            ViewData["CreatedAt"] = hole.CreatedAt.ToShortDateString();
+            ViewData["CreatedBy"] = hole.CreatedBy;
+            ViewData["Likes"] = hole.Likes;
+            ViewData["Views"] = hole.Views;
 
-            //var holeThoughts = _thoughtsRepository.ReadAll(thought =>
-            //{
-            //    return thought.ThoughtHoleId == holeId;
-            //}).ToList();
-
-            var holeThoughts = _thoughtsAppService.ReadAll(e=>e.ThoughtHoleId == holeId).ToList();
-            
-
+            var holeThoughts = _thoughtsAppService.ReadAll(e => e.ThoughtHoleId == hole.Id).ToList();
             var holeThoughtsVM = _mapper.Map<IEnumerable<Thought>, IEnumerable<ThoughtIndexViewModel>>(holeThoughts);
 
             return View("Index", holeThoughtsVM);
         }
-
 
     }
 }

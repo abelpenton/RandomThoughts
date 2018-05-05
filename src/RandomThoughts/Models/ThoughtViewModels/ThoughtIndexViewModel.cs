@@ -13,5 +13,12 @@ namespace RandomThoughts.Models.ThoughtViewModels
 
         public string ModifiedAtHumanized { get; set; }
 
+        public int Likes { get; set; }
+
+        public int Views { get; set; }
+
+        public int NumberComments { get; set; }
+
+        public string CreatedBy { get; set; }
     }
 }

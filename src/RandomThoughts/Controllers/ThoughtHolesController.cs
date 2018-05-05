@@ -73,11 +73,9 @@ namespace RandomThoughts.Controllers
         /// <returns></returns>
         public IActionResult HoleThoughts(int holeId)
         {
-            var holeName = _thoughtHolesAppService.SingleOrDefault(holeId).Name;
-            return RedirectToAction("HoleThoughts", "Thoughts", new { holeId = holeId, holeName });
-        
+            var hole = _thoughtHolesAppService.SingleOrDefault(holeId);
+            return RedirectToAction("HoleThoughts", "Thoughts", hole);
         }
-
 
     }
 }
