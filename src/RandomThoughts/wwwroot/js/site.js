@@ -2,7 +2,8 @@
 
 var apiHost;
 var currentId;
-$(document).ready(function(){
+$(document).ready(function () {
+    
     apiHost = $('#app-data').attr('data-apiHost');
     console.log(apiHost);
 
@@ -16,6 +17,7 @@ $(document).ready(function(){
     });
     $(".thought-edit-btn").click(function() {
         let thoughtId = $(this).closest(".thought-inner-container").data("id");
+        ModalBackground('.modal-dialog');
         displayThoughtEditModal(thoughtId);        
     });
     $(".comment-edit-btn").click(function () {
@@ -25,14 +27,14 @@ $(document).ready(function(){
     });
     $('#add-new-thought').click(function () {
         ModalBackground('.modal-dialog');
-        $('#thought-edit-modal').modal('show');
+        $('#thought-create-modal').modal('show');
     });
     $('#add-new-comment').click(function () {
         let thoughtId = $(this).data("id");
         currentId = thoughtId;
         $('#comment-edit-modal').modal('show');
     });
-    $('#save-thought-btn').click(function(e){
+    $('#create-thought-btn').click(function(e){
         e.preventDefault();
         saveNewThought();
     });
@@ -81,7 +83,7 @@ function getThought(thoughtId){
 function displayThoughtDetails(data){
     $('#thought-display-modal .modal-title').html(data.title);
     $('#thought-display-modal .modal-body > p').html(data.body);
-    $('#thought-display-modal #data-thought').html(data.createAtHumanized + "  |  " + data.body.length + " words");
+    $('#thought-display-modal #data-thought').html("Created " + data.createAtHumanized + " |  " + data.body.length + " words");
 
     let dataJson = {};
     let form = new FormData();
@@ -132,7 +134,7 @@ function ModalBackground(param) {
 }
 
 function saveNewThought(){
-    let inputsSelector = $('#thought-edit-modal input, #thought-edit-modal textarea, #thought-edit-modal select');
+    let inputsSelector = $('#thought-create-modal input, #thought-create-modal textarea, #thought-create-modal select');
     var data = inputsSelector.serializeArray();
     let hasError = false;
     for(key in data){
@@ -186,6 +188,9 @@ function displayThoughtEditModal(thoughtId){
     let body = thoughtCntSel.find('.thought-body').text();
     let mood = thoughtCntSel.attr('data-mood');
 
+    GetModifyOfThought(thoughtId);
+    
+
     $('#thought-edit-modal #thought-id').val(thoughtId);
 
     $('#thought-edit-modal #thought-title').val(title);
@@ -194,11 +199,18 @@ function displayThoughtEditModal(thoughtId){
     
 
     $('#save-thought-btn').text("Edit").unbind('click').
-    click(function(){
+        click(function () {            
         saveThoughtChanges(thoughtId);
     });
     $('#thought-edit-modal').modal('show');
 
+}
+
+function GetModifyOfThought(thoughtId) {
+    $.get(apiHost + 'thoughts/get/' + thoughtId, function (data) {
+        console.log(data.modifiedAtHumanized)
+        $('#thought-edit-modal #data-thought').html("Last Modify " + data.modifiedAtHumanized);
+    });
 }
 
 function saveThoughtChanges(thoughtId){
