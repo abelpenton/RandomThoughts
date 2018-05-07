@@ -5,6 +5,7 @@ using RandomThoughts.Business.Base;
 using RandomThoughts.DataAccess.Repositories.Base;
 using RandomThoughts.DataAccess.Repositories.Thoughts;
 using RandomThoughts.Domain;
+using System.Linq;
 
 namespace RandomThoughts.Business.ApplicationServices.Thoughts
 {
@@ -24,6 +25,32 @@ namespace RandomThoughts.Business.ApplicationServices.Thoughts
         /// </summary>
         public ThoughtsApplicationService(IThoughtsRepository repository) : base(repository)
         {
+        }
+
+        public IEnumerable<Thought> ReadAllLimit(Func<Thought,bool> filter,int limit)
+        {
+            var result = (this.ReadAll(filter) as IQueryable<Thought>).Select(
+                thought => new Thought
+                {
+                    ApplicationUser = thought.ApplicationUser,
+                    Body = thought.Body.Length > limit ? thought.Body.Substring(0, limit) + "..." : thought.Body,
+                    Comments = thought.Comments,
+                    CreatedAt = thought.CreatedAt,
+                    Id = thought.Id,
+                    Likes = thought.Likes,
+                    Mood = thought.Mood,
+                    Title = thought.Title,
+                    ThoughtHole = thought.ThoughtHole,
+                    ThoughtHoleId = thought.ThoughtHoleId,
+                    ModifiedAt = thought.ModifiedAt,
+                    Views = thought.Views,
+                    ApplicationUserId = thought.ApplicationUserId,
+                    CreatedBy = thought.CreatedBy,
+                    ModifiedBy = thought.ModifiedBy
+                });
+
+            return result;
+           
         }
     }
 }

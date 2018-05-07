@@ -38,7 +38,7 @@ namespace RandomThoughts.Controllers
             ViewData["Title"] = "My Thoughts";
             ViewData["PersonalThoughts"] = true;
             ViewData["MainTitle"] = "My Thoughts";
-            var userThoughts = _thoughtsAppService.ReadAll(thought => thought.ApplicationUserId == this.CurrentUserId).ToList();
+            var userThoughts = _thoughtsAppService.ReadAllLimit(thought => thought.ApplicationUserId == this.CurrentUserId,10).ToList();
 
             var userThoughtsVM = _mapper.Map<IEnumerable<Thought>, IEnumerable<ThoughtIndexViewModel>>(userThoughts);
 
@@ -55,7 +55,7 @@ namespace RandomThoughts.Controllers
             ViewData["MainTitle"] = "Public Thoughts";
             ViewData["PersonalThoughts"] = false;
 
-            var userThoughts = _thoughtsAppService.ReadAll(_ => true).ToList();
+            var userThoughts = _thoughtsAppService.ReadAllLimit(_ => true,10).ToList();
 
             var userThoughtsVM = _mapper.Map<IEnumerable<Thought>, IEnumerable<ThoughtIndexViewModel>>(userThoughts);
 

@@ -21,5 +21,11 @@ namespace RandomThoughts.Business.ApplicationServices.Thoughts
     /// </summary>
     public interface IThoughtsApplicationService : IBaseApplicationService<Thought, int>
     {
+        /// <summary>
+        /// This is a functionality for read just a limit number
+        /// of character in the body of Thought
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Thought> ReadAllLimit(Func<Thought, bool> filter, int limit);
     }
 }

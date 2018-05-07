@@ -40,7 +40,7 @@ namespace RandomThoughts.Controllers.Api
         [HttpGet]
         public IEnumerable<ThoughtIndexViewModel> GetUserThoughts()
         {
-            var userThoughts = _thoughtsApplicationService.ReadAll(thought => thought.ApplicationUserId == CurrentUserId).ToList();
+            var userThoughts = _thoughtsApplicationService.ReadAllLimit(thought => thought.ApplicationUserId == CurrentUserId, 10).ToList();
 
             var userThoughtsVM = _mapper.Map<IEnumerable<Thought>, IEnumerable<ThoughtIndexViewModel>>(userThoughts);
 
