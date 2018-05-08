@@ -41,6 +41,15 @@ $(document).ready(function () {
         $('#thought-create-modal').modal('toggle');
         saveNewThought();
     });
+    $('#thought-edit-modal').on('hidden.bs.modal', function () {
+        FixBackgroung();
+    });
+    $('#thought-create-modal').on('hidden.bs.modal', function () {
+        FixBackgroung();
+    });
+    $('#thought-display-modal').on('hidden.bs.modal', function () {
+        FixBackgroung();
+    });
     $('#save-comment-btn').click(function (e) {
         e.preventDefault();
         let thoughtId = $(this).data("id");
@@ -187,7 +196,7 @@ function saveNewThought(){
 
 function cleanModal(){
     $('#thought-edit-modal .form-group').removeClass('has-error');
-    $('#thought-edit-modal input, #thought-edit-modal textarea').val('');
+    $('#thought-edit-modal input, #thought-edit-modal textarea').val('');    
     $('#thought-edit-modal').modal('hide');
 }
 
