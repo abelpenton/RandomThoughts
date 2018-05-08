@@ -27,6 +27,7 @@ $(document).ready(function () {
     });
     $('#add-new-thought').click(function () {
         ModalBackground('.modal-dialog');
+        
         $('#thought-create-modal').modal('show');
     });
     $('#add-new-comment').click(function () {
@@ -36,6 +37,8 @@ $(document).ready(function () {
     });
     $('#create-thought-btn').click(function(e){
         e.preventDefault();
+        FixBackgroung();
+        $('#thought-create-modal').modal('toggle');
         saveNewThought();
     });
     $('#save-comment-btn').click(function (e) {
@@ -133,6 +136,11 @@ function ModalBackground(param) {
     $('#thoughts-header > ').css('filter', 'blur(2px)');
 }
 
+function FixBackgroung() {
+    $('#thoughts-container > ').css('filter', 'blur(0px)');
+    $('#thoughts-header > ').css('filter', 'blur(0px)');
+}
+
 function saveNewThought(){
     let inputsSelector = $('#thought-create-modal input, #thought-create-modal textarea, #thought-create-modal select');
     var data = inputsSelector.serializeArray();
@@ -173,7 +181,8 @@ function saveNewThought(){
 
     }).error(function (jqXHR, textStatus, errorThrown) {
         toastr.error('There is an error in the server, please try again :(', 'Opps');
-    });
+        });
+    
 }
 
 function cleanModal(){
@@ -199,7 +208,9 @@ function displayThoughtEditModal(thoughtId){
     
 
     $('#save-thought-btn').text("Edit").unbind('click').
-        click(function () {            
+        click(function () {
+            FixBackgroung();
+            $('#thought-edit-modal').modal('toggle');
         saveThoughtChanges(thoughtId);
     });
     $('#thought-edit-modal').modal('show');
