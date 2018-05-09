@@ -32,10 +32,9 @@
           
       </div>
       <div class="modal-body">
-        <p style="background-color: azure; text-align: center;";">One fine body&hellip;</p>
+        <p style="text-align: center;text-align: center;font-family: initial;font-size: 3cm;font-style: oblique;">One fine body&hellip;</p>
       </div>
-      <h1>Comments</h1>
-      <div id="comment-details" class="modalCommentTitle">
+      <div style="margin-left: 0.5cm" id="comment-details" class="modalCommentTitle">
         <h5></h5>
         <span class="thought-action-container pull-right">
             
@@ -45,7 +44,9 @@
             <p></p>
         </div>
         <div id="thought-inner-container" class="modal-footer">
-            <button id="add-new-comment" type="button" class="btn btn-success pull-right">Comment</button>
+            <input id="comment-body" style="border-style: double;margin-right: 50cm;width: 31cm;border-radius: 5px;display: inline-block;" type="text" placeholder="Enter a Comment ...">
+            <button id="add-new-comment" type="button" class="form-control-static btn btn-success pull-right">Comment</button>
+            
         </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -120,6 +121,7 @@
                     <label for="thought-title">Title</label>
                     <input type="text" class="form-control" id="thought-title" name="Title">
                 </div>
+                
                 <div class="form-group">
                     <label for="thought-body">Your Thought</label>
                     <textarea rows="5" type="text" class="form-control" id="thought-body" name="Body"></textarea>
