@@ -7,10 +7,13 @@ $(document).ready(function () {
     apiHost = $('#app-data').attr('data-apiHost');
     console.log(apiHost);
 
+
     $(".thought-view-btn").click(function() {
         let thoughtId = $(this).closest(".thought-inner-container").data("id");
         getThought(thoughtId);        
     });
+
+
     $(".comment-view-btn").click(function () {
         let commentId = $(this).data("id");
         getComment(commentId);
@@ -33,6 +36,9 @@ $(document).ready(function () {
     $('#add-new-comment').click(function () {
         let thoughtId = $(this).data("id");
         currentId = thoughtId;
+        var body = $('#comment-body').value;
+        currentId = thoughtId;
+        saveNewComment();
         $('#comment-edit-modal').modal('show');
     });
     $('#create-thought-btn').click(function(e){
@@ -94,7 +100,7 @@ function getThought(thoughtId){
  */
 function displayThoughtDetails(data){
     $('#thought-display-modal .modal-title').html(data.title);
-    $('#thought-display-modal .modal-body > p').html(data.body);
+    $('#thought-display-modal .modal-body > span').html("‟" + data.body + "”");
     $('#thought-display-modal #data-thought').html("Created " + data.createAtHumanized + " |  " + data.body.length + " words");
 
     let dataJson = {};
@@ -118,9 +124,9 @@ function displayThoughtDetails(data){
         $('#thought-display-modal .modalCommentTitle >').remove();
         console.log(res);
         for (var i = 0; i < res.length; i++) {
-            $('#thought-display-modal .modalCommentTitle').append("<h5>" + res[i].applicationUserId + "</h5>");
-            $('#thought-display-modal .modalCommentTitle').append("<span class=\"thought-action-container pull-right\"><button data-id=\"" + res[i].id + "\" class=\"comment-view-btn\"><span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\"></span></button><button data-id=\"" + res[i].id + "\" class=\"comment-edit-btn\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></button></span></div>");
-            $('#thought-display-modal .modalCommentTitle').append("<div class=\"modalComment-body\"><p>" + res[i].body + "</p></div>");
+            $('#thought-display-modal .modalCommentTitle').append("<img style=\"display: inline-block; width: 3%; border-radius: 50%\" src=\"../images/default-avatar-2.jpg\"> ");
+            $('#thought-display-modal .modalCommentTitle').append("<div style=\"display: inline-block; margin-left: -1.5cm;\" class=\"dialogbox\"><div class=\"body\"><span class=\"tip tip-left\"></span><div class=\"message\"><div class=\"modalComment-body\"><span style=\"margin: 20px 40px 10px;\">" + res[i].body + "</span></div>" + "</div></div></div></div >");
+            $('#thought-display-modal .modalCommentTitle').append("<p></p>");
         }
         $(".comment-view-btn").click(function () {
             let commentId = $(this).data("id");
@@ -138,6 +144,7 @@ function displayThoughtDetails(data){
         
     });
 }
+
 
 function ModalBackground(param) {
     $(param).css('width', '35cm');
