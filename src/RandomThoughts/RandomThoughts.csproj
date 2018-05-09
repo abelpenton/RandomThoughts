@@ -13,6 +13,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="bootstrap.daterangepicker" Version="2.1.24.1" />
+    <PackageReference Include="Bootstrap.v3.Datetimepicker" Version="4.0.1" />
+    <PackageReference Include="Bootstrap.v3.Datetimepicker.CSS" Version="4.0.2" />
     <PackageReference Include="Humanizer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0-preview1-final" PrivateAssets="All" />
