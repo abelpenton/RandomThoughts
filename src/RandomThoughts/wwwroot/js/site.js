@@ -7,7 +7,11 @@ $(document).ready(function () {
     apiHost = $('#app-data').attr('data-apiHost');
     console.log(apiHost);
 
-
+    setInterval(function () {
+        if ($('#thought-display-modal').hasClass('in')) {           
+            getThought(currentId);
+        }
+    },5000);
     $(".thought-view-btn").click(function() {
         let thoughtId = $(this).closest(".thought-inner-container").data("id");
         getThought(thoughtId);        
