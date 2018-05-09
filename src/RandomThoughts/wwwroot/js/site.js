@@ -36,10 +36,9 @@ $(document).ready(function () {
     $('#add-new-comment').click(function () {
         let thoughtId = $(this).data("id");
         currentId = thoughtId;
-        var body = $('#comment-body').value;
-        currentId = thoughtId;
-        saveNewComment();
-        $('#comment-edit-modal').modal('show');
+        var body = document.getElementById('comment-body').value;
+        console.log(body);
+        saveNewComment(body);
     });
     $('#create-thought-btn').click(function(e){
         e.preventDefault();
@@ -62,7 +61,6 @@ $(document).ready(function () {
         console.log("Here!!");
         console.log(thoughtId);
         currentId = thoughtId;
-        saveNewComment();
     });
     $('#save-thoughtHole-btn').click(function(e){
         e.preventDefault();
@@ -100,7 +98,7 @@ function getThought(thoughtId){
  */
 function displayThoughtDetails(data){
     $('#thought-display-modal .modal-title').html(data.title);
-    $('#thought-display-modal .modal-body > span').html("‟" + data.body + "”");
+    $('#thought-display-modal .modal-body > p').html("‟" + data.body + "”");
     $('#thought-display-modal #data-thought').html("Created " + data.createAtHumanized + " |  " + data.body.length + " words");
 
     let dataJson = {};
@@ -126,6 +124,8 @@ function displayThoughtDetails(data){
         for (var i = 0; i < res.length; i++) {
             $('#thought-display-modal .modalCommentTitle').append("<img style=\"display: inline-block; width: 3%; border-radius: 50%\" src=\"../images/default-avatar-2.jpg\"> ");
             $('#thought-display-modal .modalCommentTitle').append("<div style=\"display: inline-block; margin-left: -1.5cm;\" class=\"dialogbox\"><div class=\"body\"><span class=\"tip tip-left\"></span><div class=\"message\"><div class=\"modalComment-body\"><span style=\"margin: 20px 40px 10px;\">" + res[i].body + "</span></div>" + "</div></div></div></div >");
+            $('#thought-display-modal .modalCommentTitle').append("<p></p>");
+            $('#thought-display-modal .modalCommentTitle').append("<p style=\"display:inline-block; font-style: italic;\">" + res[i].createAtHumanized + "</p><button style=\"  margin-left: 7mm; display: inline-block; background-color: transparent;border-color: transparent; \"><img src=\"../images/like.png\"></button><strong><p style=\"display: inline-block;\">" + res[i].likes + "</p></strong>");
             $('#thought-display-modal .modalCommentTitle').append("<p></p>");
         }
         $(".comment-view-btn").click(function () {
@@ -416,33 +416,14 @@ function editCommentCard(comment) {
     $('.comment-inner-container[data-id="' + comment.id + '"] .comment-body').text(comment.body);
 }
 
-function saveNewComment() {
-    let inputsSelector = $('#comment-edit-modal input, #comment-edit-modal textarea, #comment-edit-modal select');
-    var data = inputsSelector.serializeArray();
-    let hasError = false;
-    for (key in data) {
-        if (data[key].value == "" && data[key].name != "Id" && data[key].name != "ThoughtId") {
-            var outerSelector = $('input[name="' + data[key].name + '"]').closest('.form-group');
-            if (outerSelector.length == 0)
-                outerSelector = $('textarea[name="' + data[key].name + '"]').closest('.form-group');
-            outerSelector.addClass('has-error');
-            console.log(data[key]);
-            hasError = true;
-        }
-    }
-    if (hasError) {
-        toastr.error('There are some error in the form, please fix them', 'Opps');
-        return false;
-    }
+function saveNewComment(body) {
 
     let dataJson = {};
     let form = new FormData();
-    data.map(function (x) {
-        dataJson[x.name] = x.value;
-    });
+ 
 
     dataJson['ParentId'] = currentId;
-
+    dataJson['Body'] = body;
     console.log(dataJson);
     $.ajax({
         type: "POST",
@@ -452,8 +433,11 @@ function saveNewComment() {
 
     }).done(function (res) {
         console.log('res', res);
-        toastr.success("The Comment have been created!!!");
-        insertNewComment(res);
+        //toastr.success("The Comment have been created!!!");
+        //insertNewComment(res);
+        var body = document.getElementById('comment-body').value = "";
+        getThought(currentId);
+
         cleanModal();
 
     }).error(function (jqXHR, textStatus, errorThrown) {
