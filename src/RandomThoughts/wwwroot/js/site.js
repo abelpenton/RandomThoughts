@@ -101,6 +101,7 @@ function displayThoughtDetails(data){
     $('#thought-display-modal .modal-body > p').html("‟" + data.body + "”");
     $('#thought-display-modal #data-thought').html("Created " + data.createAtHumanized + " |  " + data.body.length + " words");
 
+    $('#new-comment > h2').append("<p></p><img style=\"display: inline-block; width: 3%; border-radius: 50%\" src=\"../images/default-avatar-2.jpg\"> ");   
     let dataJson = {};
     let form = new FormData();
     
@@ -116,8 +117,7 @@ function displayThoughtDetails(data){
 
     }).done(function (res) {
         console.log('res', res);
-        $('#comment-edit-modal .modal-footer > button').data("id", data.id);
-        $('#thought-inner-container > button').data("id", data.id);
+        $('#new-comment > button').data("id", data.id);
         console.log(data.id);
         $('#thought-display-modal .modalCommentTitle >').remove();
         console.log(res);
