@@ -227,7 +227,10 @@ function displayThoughtEditModal(thoughtId){
         click(function () {
             FixBackgroung();
             $('#thought-edit-modal').modal('toggle');
-        saveThoughtChanges(thoughtId);
+            saveThoughtChanges(thoughtId);
+            $.get(apiHost + 'Thoughts/GetUserThoughts/', function (data) {
+                getThought(thoughtId);
+            });
     });
     $('#thought-edit-modal').modal('show');
 
@@ -253,7 +256,7 @@ function saveThoughtChanges(thoughtId){
 
             outerSelector.addClass('has-error');
             console.log(data[key]);
-            hasError = true;
+            
         }
     }
     if(hasError){
