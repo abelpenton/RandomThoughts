@@ -13,6 +13,18 @@ $(document).ready(function () {
         getThought(thoughtId);        
     });
 
+    $("#comment-body").keypress(function (e) {
+        if (e.which == 13) {            
+            let thoughtId = $(this).data("id");
+            currentId = thoughtId;
+            var body = document.getElementById('comment-body').value;
+            if (body.length > 1){
+                console.log(body);
+                saveNewComment(body);
+            }
+            
+        }
+    });
 
     $(".comment-view-btn").click(function () {
         let commentId = $(this).data("id");
@@ -101,7 +113,6 @@ function displayThoughtDetails(data){
     $('#thought-display-modal .modal-body > p').html("‟" + data.body + "”");
     $('#thought-display-modal #data-thought').html("Created " + data.createAtHumanized + " |  " + data.body.length + " words");
 
-    $('#new-comment > h2').append("<p></p><img style=\"display: inline-block; width: 3%; border-radius: 50%\" src=\"../images/default-avatar-2.jpg\"> ");   
     let dataJson = {};
     let form = new FormData();
     
@@ -117,6 +128,7 @@ function displayThoughtDetails(data){
 
     }).done(function (res) {
         console.log('res', res);
+        $('#comment-body').data("id", data.id);
         $('#new-comment > button').data("id", data.id);
         console.log(data.id);
         $('#thought-display-modal .modalCommentTitle >').remove();
