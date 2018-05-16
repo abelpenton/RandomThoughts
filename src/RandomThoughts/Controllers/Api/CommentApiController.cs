@@ -49,6 +49,8 @@ namespace RandomThoughts.Controllers.Api
         [HttpPost]
         public IActionResult PostComment([FromBody] CommentsCreateViewModel newComment)
         {
+            if (newComment.Body.Length == 0 || newComment.Body.Length > 50)
+                return BadRequest();
             newComment.ApplicationUserId = CurrentUserNickName;
 
 
